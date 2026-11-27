@@ -21,28 +21,27 @@ To find the length of the largest subarray with a sum of 0, we can use a techniq
 CODE:
 */
 
-int maxLen(vector<int> &A, int n)
-{
-    unordered_map<int, int> mp;
-    mp[0] = -1;
-    int pref_sum = 0;
-    int ans = 0;
+int maxLen(vector<int>& arr, int n) {
+    unordered_map<int, int> mpp;
+    int maxLen = 0;
+    int sum = 0;
 
-    for (int i = 0; i < n; i++)
-    {
-        pref_sum += A[i];
-        if (mp.find(pref_sum) != mp.end())
-        {
-            ans = max(ans, i - mp[pref_sum]);
-        }
-        else
-        {
-            mp[pref_sum] = i;
+    for (int i = 0; i < n; i++) {
+        sum += arr[i];
+
+        if (sum == 0) {
+            maxLen = i + 1;
+        } else {
+            if (mpp.find(sum) != mpp.end()) {
+                maxLen = max(maxLen, i - mpp[sum]);
+            } else {
+                mpp[sum] = i;
+            }
         }
     }
-
-    return ans;
+    return maxLen;
 }
+
 
 /*
 TIME COMPLEXITY: O(n), where n is the size of the input array A.
