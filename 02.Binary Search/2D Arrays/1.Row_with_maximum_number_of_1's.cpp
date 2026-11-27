@@ -51,3 +51,29 @@ int rowWithMax1s(vector<vector<int>> arr, int n, int m)
 
 // TIME COMPLEXITY = O(N+M)
 // SPACE COMPLEXITY = O(0)
+
+// OPTIMAL SOLUTION
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+int rowWithMax1s(const vector<vector<int>>& mat) {
+    int n = mat.size();
+    if (n == 0) return -1;
+    int m = mat[0].size();
+
+    int maxOnes = 0;
+    int ansRow = -1;
+
+    for (int i = 0; i < n; i++) {
+        // Find first occurrence of 1 using binary search
+        int firstOne = lower_bound(mat[i].begin(), mat[i].end(), 1) - mat[i].begin();
+        int onesCount = m - firstOne;
+
+        if (onesCount > maxOnes) {
+            maxOnes = onesCount;
+            ansRow = i;
+        }
+    }
+    return ansRow;
+}
