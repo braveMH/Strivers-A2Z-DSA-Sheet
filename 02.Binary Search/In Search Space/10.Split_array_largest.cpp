@@ -22,22 +22,23 @@ Time Complexity: O(n * log(sum of array))
 Space Complexity: O(1)
 */
 
-bool isPossible(int mid, vector<int>& nums, int k) {
-    int pos_parts = 1, temp = 0;
-    for (auto it : nums) {
-        if (temp + it <= mid) {
-            temp += it;
-        } else {
-            pos_parts++;
-            if (it > mid)
-                return false;
-            temp = it;
+
+bool isPossible(const vector<int>& nums, int k, int maxSum) {
+        int subarrays = 1;
+        int currentSum = 0;
+
+        for (int num : nums) {
+            if (currentSum + num > maxSum) {
+                subarrays++;
+                currentSum = num;
+                if (subarrays > k) return false;
+            } else {
+                currentSum += num;
+            }
         }
-    }
-    if (pos_parts <= k)
+
         return true;
-    return false;
-}
+    }
 
 int splitArray(vector<int>& nums, int k) {
     int low = INT_MAX, high = 0;
@@ -48,7 +49,7 @@ int splitArray(vector<int>& nums, int k) {
     }
     while (low <= high) {
         int mid = low + (high - low) / 2;
-        if (isPossible(mid, nums, k)) {
+        if (isPossible(nums, k, mid)) {
             ans = mid;
             high = mid - 1;
         } else
