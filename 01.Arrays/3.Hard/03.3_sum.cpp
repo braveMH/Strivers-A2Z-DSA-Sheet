@@ -24,50 +24,38 @@ To find all triplets that sum up to zero, we can follow these steps:
 6. Return the resulting triplets.
 */
 
-vector<vector<int>> threeSum(vector<int> &nums)
-{
+vector<vector<int>> threeSum(vector<int>& nums) {
     vector<vector<int>> ans;
+    int n = nums.size();
     sort(nums.begin(), nums.end());
 
-    for (int k = 0; k < nums.size(); k++)
-    {
-        int i = k + 1;
-        int j = nums.size() - 1;
-        int target = -nums[k];
+    for (int i = 0; i < n; i++) {
+        // ignore duplicates
+        if (i > 0 && nums[i] == nums[i - 1]) continue;
+        
+        int j = i + 1;
+        int k = n - 1;
+        
+        while (j < k) {
+            int sum = nums[i] + nums[j] + nums[k];
+            if (sum < 0) {
+                j++;
+            } else if (sum > 0) {
+                k--;
+            } else {
+                ans.push_back({nums[i], nums[j], nums[k]});
+                j++;
+                k--;
 
-        while (i < j)
-        {
-            int sum = nums[i] + nums[j];
-
-            if (sum == target)
-            {
-                ans.push_back({nums[k], nums[i], nums[j]});
-                i++;
-                j--;
-
-                // Skip duplicate elements
-                while (i < j && nums[i] == nums[i - 1])
-                    i++;
-                while (i < j && nums[j] == nums[j + 1])
-                    j--;
-            }
-            else if (sum < target)
-            {
-                i++;
-            }
-            else
-            {
-                j--;
+                // ignore duplicates
+                while (j < k && nums[j] == nums[j - 1]) j++;
+                while (j < k && nums[k] == nums[k + 1]) k--;
             }
         }
-
-        // Skip duplicate elements
-        while (k + 1 < nums.size() && nums[k + 1] == nums[k])
-            k++;
     }
-
     return ans;
 }
+
 
 /*
 TIME COMPLEXITY: O(n^2), where n is the size of the input array.
