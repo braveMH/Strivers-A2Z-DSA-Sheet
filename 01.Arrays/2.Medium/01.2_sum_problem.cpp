@@ -42,5 +42,7 @@ vector<int> twoSum(vector<int> &nums, int target)
     // If the question asks to just return whether pair exists or not, not the indexes in that case we can sort and easily find the pair sum without extra space
 }
 
+// mp[remain] != i is to prevent self pair, if we prepopulate the map beforehand. This is anyway redundant here
+
 // TIME COMPLEXITY = O(N)
 // SPACE COMPLEXITY = O(N)
