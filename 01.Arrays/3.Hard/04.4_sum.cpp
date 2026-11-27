@@ -29,59 +29,37 @@ To find the unique quadruplets that sum up to the target, we can use a similar a
 CODE:
 */
 
-vector<vector<int>> fourSum(vector<int> &nums, int target)
-{
+vector<vector<int>> fourSum(vector<int>& nums, int target) {
+    int n = nums.size();
     vector<vector<int>> ans;
-    long long trgt = (long long)(target); // to handle overflow
     sort(nums.begin(), nums.end());
 
-    for (int a = 0; a < nums.size(); a++)
-    {
-        for (int b = a + 1; b < nums.size(); b++)
-        {
-            if (a == b)
-                continue;
-
-            int c = b + 1;
-            int d = nums.size() - 1;
-            long long tar = trgt - (nums[a] + nums[b]);
-
-            while (c < d)
-            {
-                long long sum = nums[c] + nums[d];
-
-                if (sum == tar)
-                {
-                    ans.push_back({nums[a], nums[b], nums[c], nums[d]});
-                    c++;
-                    d--;
-
-                    // Skip duplicate elements
-                    while (c < d && nums[c] == nums[c - 1])
-                        c++;
-                    while (c < d && nums[d] == nums[d + 1])
-                        d--;
-                }
-                else if (sum > tar)
-                {
-                    d--;
-                }
-                else
-                {
-                    c++;
+    for (int i = 0; i < n; i++) {
+        if (i > 0 && nums[i] == nums[i - 1]) continue;
+        
+        for (int j = i + 1; j < n; j++) {
+            if (j > i + 1 && nums[j] == nums[j - 1]) continue;
+            
+            int k = j + 1;
+            int l = n - 1;
+            
+            while (k < l) {
+                long long sum = (long long)nums[i] + nums[j] + nums[k] + nums[l];
+                
+                if (sum == target) {
+                    ans.push_back({nums[i], nums[j], nums[k], nums[l]});
+                    k++;
+                    l--;
+                    while (k < l && nums[k] == nums[k - 1]) k++;
+                    while (k < l && nums[l] == nums[l + 1]) l--;
+                } else if (sum < target) {
+                    k++;
+                } else {
+                    l--;
                 }
             }
-
-            // Skip duplicate elements
-            while (b + 1 < nums.size() && nums[b + 1] == nums[b])
-                b++;
         }
-
-        // Skip duplicate elements
-        while (a + 1 < nums.size() && nums[a + 1] == nums[a])
-            a++;
     }
-
     return ans;
 }
 
