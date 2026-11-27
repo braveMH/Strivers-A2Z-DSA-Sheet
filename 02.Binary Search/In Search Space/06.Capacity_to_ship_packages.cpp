@@ -23,22 +23,20 @@ To find the least weight capacity of the ship, we can use binary search. We set 
 Code:
 */
 
-bool isPossible(int mid, vector<int>& weights, int days){
-    int req_day = 1, temp = mid;
-    for(auto it:weights){
-        if(it <= temp){
-            temp -= it;
+bool isPossible(int capacity, vector<int>& weights, int days) {
+        int daysNeeded = 1;
+        int currentLoad = 0;
+
+        for (int weight : weights) {
+            if (currentLoad + weight > capacity) {
+                daysNeeded++;
+                currentLoad = 0;
+            }
+            currentLoad += weight;
         }
-        else{
-            req_day++;
-            if(it > mid)
-                return false;
-            temp = mid - it;
-        }
+
+        return daysNeeded <= days;
     }
-    if(req_day <= days)
-        return true;
-    return false;
 }
 
 int shipWithinDays(vector<int>& weights, int days) {
