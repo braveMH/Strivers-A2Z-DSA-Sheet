@@ -31,22 +31,22 @@ Approach:
 Code:
 */
 
-bool isPossible(int mid, int A[], int N, int M) {
-    int pos_m = 1;
-    int temp = 0;
-    for (int i = 0; i < N; i++) {
-        if (temp + A[i] <= mid) {
-            temp += A[i];
-        } else {
-            pos_m++;
-            if (A[i] > mid)
-                return false;
-            temp = A[i];
+bool isPossible(int mid, int A[], int m, int maxPages)  {
+        int studentsRequired = 1;
+        int currentPages = 0;
+
+        for (int pages : books) {
+            if (pages > maxPages) return false;
+
+            if (currentPages + pages > maxPages) {
+                studentsRequired++;
+                currentPages = pages;
+            } else {
+                currentPages += pages;
+            }
         }
-    }
-    if (pos_m <= M)
-        return true;
-    return false;
+
+        return studentsRequired <= m;
 }
 
 int findPages(int A[], int N, int M) {
